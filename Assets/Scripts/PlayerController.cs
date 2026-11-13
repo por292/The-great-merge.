@@ -34,16 +34,41 @@ public class PlayerController : MonoBehaviour
 		controller = GetComponent<CharacterController>();
         wallRun = GetComponent<WallRunning>();
     }
-	 private void Start()
+	
+	private void Start()
     {
         currentHealth = PHealth;
     }
 
     void Update()
     {
+	 if (isDead)
+        {
+            return;
+        }
 		PlayerMovement();
 		Grav();
 		Jump();
+    }
+	public void TakeDamage(int damage)
+    {
+        PHealth -= damage;
+        if (PHealth <= 0) Die();
+    }
+
+    private void Die()
+    {
+        isDead = true;
+
+        if (TryGetComponent<PlayerController>(out PlayerController movement))
+        {
+            movement.enabled = false;
+        }
+        if (animator != null)
+        {
+            animator.SetTrigger("isDead");
+        }
+        Invoke("RestartLevel", 2f);
     }
 
     private void Grav()
