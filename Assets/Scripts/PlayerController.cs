@@ -8,7 +8,12 @@ public class PlayerController : MonoBehaviour
 	private CharacterInput controls; // Our controls we defined
     private Vector3 velocity; // To hold our current velocity   
     public Vector2 move; // To hold our move
-    
+
+	[Header("Health Settings")]
+    public float PHealth = 100f;
+    private float currentHealth;
+    private bool isDead = false;
+    private Animator animator;
 
     private CharacterController controller; // Character controller
 
@@ -28,6 +33,10 @@ public class PlayerController : MonoBehaviour
 		controls = new CharacterInput();
 		controller = GetComponent<CharacterController>();
         wallRun = GetComponent<WallRunning>();
+    }
+	 private void Start()
+    {
+        currentHealth = PHealth;
     }
 
     void Update()
